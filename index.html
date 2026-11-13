@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Language Translator - CodeAlpha</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Background ambient glow -->
+  <div class="ambient-glow"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="app-title">CodeAlpha Translator</h1>
+          <p class="app-subtitle">Translate text seamlessly across 50+ languages</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Provider Info Badge -->
+        <div id="providerBadge" class="provider-badge" title="Active translation service engine">
+          <span class="badge-dot"></span>
+          <span id="providerNameText">Loading engine...</span>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" class="icon-btn" title="Toggle dark/light theme" aria-label="Toggle theme">
+          <svg id="themeIconSun" class="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="themeIconMoon" class="theme-icon hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Translator Card -->
+    <main class="translator-card">
+      <!-- Language Selection Controls -->
+      <div class="controls-toolbar">
+        <div class="select-group">
+          <label for="sourceLanguage" class="sr-only">Source Language</label>
+          <select id="sourceLanguage" class="language-select">
+            <option value="auto">✨ Auto-detect language</option>
+            <!-- Languages populated by script.js -->
+          </select>
+        </div>
+
+        <!-- Swap Languages Button -->
+        <button id="swapLanguagesBtn" class="swap-btn" title="Swap languages" aria-label="Swap source and target languages">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m16 3 4 4-4 4"></path>
+            <path d="M20 7H4"></path>
+            <path d="m8 21-4-4 4-4"></path>
+            <path d="M4 17h16"></path>
+          </svg>
+        </button>
+
+        <div class="select-group">
+          <label for="targetLanguage" class="sr-only">Target Language</label>
+          <select id="targetLanguage" class="language-select">
+            <option value="" disabled>Select Target Language...</option>
+            <!-- Languages populated by script.js -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Translation Panels Grid -->
+      <div class="panels-grid">
+        <!-- Left Panel: Source Input -->
+        <div class="panel source-panel">
+          <div class="panel-header">
+            <span class="panel-label">Input Text</span>
+            <button id="clearSourceBtn" class="panel-action-btn hidden" title="Clear text" aria-label="Clear source text">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              <span>Clear</span>
+            </button>
+          </div>
+
+          <div class="textarea-wrapper">
+            <textarea
+              id="sourceText"
+              class="translator-textarea"
+              placeholder="Type, paste, or draft your text here..."
+              maxlength="5000"
+              spellcheck="true"
+            ></textarea>
+          </div>
+
+          <div class="panel-footer">
+            <button id="pasteTextBtn" class="btn-text-action" title="Paste from clipboard">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              </svg>
+              <span>Paste</span>
+            </button>
+            <div id="charCounter" class="char-counter">0 / 5,000</div>
+          </div>
+        </div>
+
+        <!-- Right Panel: Translation Result -->
+        <div class="panel target-panel">
+          <div class="panel-header">
+            <div class="result-title-group">
+              <span class="panel-label">Translation</span>
+              <span id="detectedLangBadge" class="detected-badge hidden"></span>
+            </div>
+            <div class="result-actions">
+              <!-- Listen (Text-to-Speech) -->
+              <button id="listenBtn" class="panel-action-btn" title="Listen to translation" aria-label="Listen to translated text" disabled>
+                <svg id="speechIconNormal" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+                <svg id="speechIconPlaying" class="hidden soundwave-anim" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="6" y1="10" x2="6" y2="14"></line>
+                  <line x1="10" y1="7" x2="10" y2="17"></line>
+                  <line x1="14" y1="4" x2="14" y2="20"></line>
+                  <line x1="18" y1="8" x2="18" y2="16"></line>
+                </svg>
+                <span id="listenBtnText">Listen</span>
+              </button>
+
+              <!-- Copy to Clipboard -->
+              <button id="copyBtn" class="panel-action-btn" title="Copy translation to clipboard" aria-label="Copy translated text" disabled>
+                <svg id="copyIconNormal" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <svg id="copyIconDone" class="hidden text-success" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span id="copyBtnText">Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Result Area with Loading Overlay -->
+          <div class="result-wrapper">
+            <div id="resultText" class="result-content placeholder-mode" tabindex="0">
+              Translation will appear here...
+            </div>
+
+            <!-- Loading Spinner & Shimmer -->
+            <div id="loadingOverlay" class="loading-overlay hidden">
+              <div class="spinner"></div>
+              <p class="loading-text">Translating with precision...</p>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <span id="metaInfoText" class="meta-info">Ready to translate</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="translator-footer">
+        <div class="shortcut-hint">
+          <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to translate instantly
+        </div>
+
+        <button id="translateBtn" class="primary-btn">
+          <span class="btn-spinner hidden"></span>
+          <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m5 12 7-7 7 7"></path>
+            <path d="M12 19V5"></path>
+          </svg>
+          <span id="translateBtnText">Translate</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- Error Alert Box -->
+    <div id="errorAlert" class="error-alert hidden" role="alert">
+      <div class="alert-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <div class="alert-content">
+        <strong id="errorAlertTitle">Error</strong>
+        <p id="errorAlertMessage">Something went wrong.</p>
+      </div>
+      <button id="closeAlertBtn" class="close-alert-btn" aria-label="Dismiss error">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Toast Notification (for copy / small alerts) -->
+    <div id="toastNotification" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <!-- Quick Features Footer Note -->
+    <footer class="app-footer">
+      <p>Built with <span class="heart-symbol">♥</span> for <strong>CodeAlpha</strong> Web Development Internship</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
